@@ -1,0 +1,1 @@
+# basyx-aas-spring-submodel-provider
