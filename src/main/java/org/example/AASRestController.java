@@ -26,19 +26,19 @@ public class AASRestController {
     @RequestMapping(value = "{aasIdShort}/submodels/{submodelIdShort}/submodel/**", method = RequestMethod.GET)
     public ResponseEntity<Object> testRestEndpoint(
             @PathVariable(name = "aasIdShort") String aasIdShort,
-            @PathVariable(name = "submodelIdShort") String submodelId,
+            @PathVariable(name = "submodelIdShort") String submodelIdShort,
             HttpServletRequest request) {
         var path = request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE).toString();
-        var restOfPath = path.replace("/aas/" + aasIdShort + "/submodels/" + submodelId, "");
+        var restOfPath = path.replace("/aas/" + aasIdShort + "/submodels/" + submodelIdShort, "");
 
-        if (this.submodelFactories.containsKey(submodelId)) {
-            var submodelFactory = submodelFactories.get(submodelId);
-            var submodel = submodelFactory.createSubmodel();
+        if (this.submodelFactories.containsKey(submodelIdShort)) {
+            var submodelFactory = submodelFactories.get(submodelIdShort);
+            var submodel = submodelFactory.createSubmodel(aasIdShort);
             var submodelProvider = new SubmodelProvider(submodel);
 
             return ResponseEntity.ok(submodelProvider.getValue(restOfPath));
         } else {
-            var errorMessage = "Submodel [idShort='" + submodelId +"'] for AAS [idShort='" + aasIdShort + "'] not found";
+            var errorMessage = "Submodel [idShort='" + submodelIdShort +"'] for AAS [idShort='" + aasIdShort + "'] not found";
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
         }
     }

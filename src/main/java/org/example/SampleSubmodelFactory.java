@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class SampleSubmodelFactory implements ISubmodelFactory {
 
-	public Submodel createSubmodel() {
+	public Submodel createSubmodel(String aasIdShort) {
 		var id = UUID.randomUUID().toString();
 
 		Property property1 = new Property(0);
@@ -23,10 +23,14 @@ public class SampleSubmodelFactory implements ISubmodelFactory {
 		Property property3 = new Property(false);
 		property3.setIdShort("physicalSpeed");
 
+		Property property4 = new Property(aasIdShort);
+		property4.setIdShort("aasIdTestProp");
+
 		List<Property> propList = new ArrayList<>();
 		propList.add(property1);
 		propList.add(property2);
 		propList.add(property3);
+		propList.add(property4);
 
 		Submodel sm = new Submodel(id, new Identifier(IdentifierType.CUSTOM, id + "Custom"));
 		propList.forEach(sm::addSubmodelElement);
